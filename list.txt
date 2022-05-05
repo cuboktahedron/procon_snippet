@@ -1,0 +1,9 @@
+
+Vectorの各要素間の差のVectorを生成する(始点と終点を繋げたものも生成できる)
+
+
+let ds = an
+    .iter()
+    .zip(an.iter().skip(1))
+    .map(|(&a, &b)| b - a)
+    .collect::<Vec<usize>>();
