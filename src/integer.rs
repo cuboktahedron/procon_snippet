@@ -45,6 +45,28 @@ mod interger {
     v
   }
 
+  #[snippet(doc_hidden)]
+  // 最小二乗法
+  // n^m % md
+  // 計算量: O(logN)
+  fn least_squares(n: usize, m: usize, md: usize) -> usize {
+    let mut m = m;
+    let mut n = n;
+
+    let mut ret = 1;
+
+    while m > 0 {
+      if m & 1 == 1 {
+        ret = ret * n % md;
+      }
+
+      n = n * n % md;
+      m = m / 2;
+    }
+
+    ret
+  }
+
   #[cfg(test)]
   mod tests {
     use super::*;
@@ -71,6 +93,16 @@ mod interger {
       assert_eq!(enumerate_divs(7), [1, 7]);
       assert_eq!(enumerate_divs(10), [1, 10, 2, 5]);
       assert_eq!(enumerate_divs(32), [1, 32, 2, 16, 4, 8]);
+    }
+
+    #[test]
+    fn test_least_squares() {
+      assert_eq!(least_squares(0, 0, 100), 1);
+      assert_eq!(least_squares(0, 1, 100), 0);
+      assert_eq!(least_squares(1, 0, 100), 1);
+      assert_eq!(least_squares(5, 4, 2000), 625);
+      assert_eq!(least_squares(4, 5, 2000), 1024);
+      assert_eq!(least_squares(4, 5, 1000), 24);
     }
   }
 }
