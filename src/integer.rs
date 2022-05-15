@@ -1,6 +1,7 @@
 #[allow(dead_code)]
 mod interger {
   use cargo_snippet::snippet;
+  use std::collections::HashMap;
 
   #[snippet]
   fn abs_diff(lhs: usize, rhs: usize) -> usize {
@@ -67,6 +68,54 @@ mod interger {
     ret
   }
 
+  #[snippet(doc_hidden)]
+  // 素因数分解
+  // 計算量: O(√N)
+  fn factorize_primes(n: usize) -> HashMap<usize, usize> {
+    let mut n = n;
+    let mut map = HashMap::new();
+
+    let mut i = 2;
+    while i * i <= n {
+      while n % i == 0 {
+        n = n / i;
+        *map.entry(i).or_insert(0) += 1;
+      }
+
+      i += 1;
+    }
+
+    if n > 1 {
+      map.insert(n, 1);
+    }
+
+    map
+  }
+
+  #[snippet(doc_hidden)]
+  // 素因数分解
+  // 計算量: O(√N)
+  fn factorize_primes_flatten(n: usize) -> Vec<usize> {
+    let mut n = n;
+    let mut v = vec![];
+
+    let mut i = 2;
+    while i * i <= n {
+      while n % i == 0 {
+        n = n / i;
+        v.push(i);
+      }
+
+      i += 1;
+    }
+
+    if n > 1 {
+      v.push(n);
+    }
+
+    v
+  }
+
   #[cfg(test)]
   mod tests {
     use super::*;
@@ -103,6 +152,31 @@ mod interger {
       assert_eq!(least_squares(5, 4, 2000), 625);
       assert_eq!(least_squares(4, 5, 2000), 1024);
       assert_eq!(least_squares(4, 5, 1000), 24);
+    }
+
+    #[test]
+    fn test_factorize_primes() {
+      assert_eq!(factorize_primes(0), HashMap::new());
+      assert_eq!(factorize_primes(1), HashMap::new());
+
+      let mut map = HashMap::new();
+      map.insert(2, 1);
+      map.insert(3, 1);
+      map.insert(7, 1);
+      assert_eq!(factorize_primes(42), map);
+
+      let mut map = HashMap::new();
+      map.insert(2, 4);
+      map.insert(3, 1);
+      assert_eq!(factorize_primes(48), map);
+    }
+
+    #[test]
+    fn test_factorize_primes_flatten() {
+      assert_eq!(factorize_primes_flatten(0), vec![]);
+      assert_eq!(factorize_primes_flatten(1), vec![]);
+      assert_eq!(factorize_primes_flatten(42), vec![2, 3, 7]);
+      assert_eq!(factorize_primes_flatten(48), vec![2, 2, 2, 2, 3]);
     }
   }
 }
