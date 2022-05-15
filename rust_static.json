@@ -10,5 +10,26 @@
     "body": [
       "println!(\"{}\", $1);"
     ]
+  },
+  "binary_search": {
+    "prefix": "tmpl_binary_search",
+    "body": [
+      "let judge = |mid: usize| -> bool {",
+      "    true",
+      "}",
+      "",
+      "let mut ${1:l} = 0;",
+      "let mut ${2:r} = ${3:last};",
+      "",
+      "while ${1:l} + 1 < ${2:r} {",
+      "    let mid = (${1:l} + ${2:r}) / 2;",
+      "",
+      "    if judge(mid) {",
+      "        ${1:l} = mid;",
+      "    } else {",
+      "        ${1:r} = mid;",
+      "    }",
+      "}"
+    ]
   }
 }
