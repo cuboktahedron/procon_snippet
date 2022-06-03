@@ -5,4 +5,5 @@ pub mod graph;
 pub mod integer;
 pub mod prime;
 pub mod probability;
+pub mod sum;
 pub mod trigonometric;
