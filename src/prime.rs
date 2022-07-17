@@ -3,9 +3,9 @@ mod prime {
   use cargo_snippet::snippet;
 
   #[snippet]
-  #[snippet(include = "primes_or_not")]
+  #[snippet(include = "enumerate_primes_or_not")]
   fn enumerate_primes(n: usize) -> Vec<usize> {
-    let v = primes_or_not(n)
+    let v = enumerate_primes_or_not(n)
       .iter()
       .enumerate()
       .filter(|(_, &b)| b)
@@ -16,7 +16,7 @@ mod prime {
   }
 
   #[snippet]
-  fn primes_or_not(n: usize) -> Vec<bool> {
+  fn enumerate_primes_or_not(n: usize) -> Vec<bool> {
     let mut pn = vec![true; n + 1];
     pn[0] = false;
     pn[1] = false;
@@ -45,7 +45,7 @@ mod prime {
     #[test]
     fn test_primes_or_not() {
       assert_eq!(
-        primes_or_not(6),
+        enumerate_primes_or_not(6),
         vec![false, false, true, true, false, true, false]
       );
     }
