@@ -4,6 +4,7 @@ pub mod constants;
 pub mod encode;
 pub mod graph;
 pub mod integer;
+pub mod matrix;
 pub mod prime;
 pub mod probability;
 pub mod sum;
