@@ -47,10 +47,10 @@ mod interger {
   }
 
   #[snippet(doc_hidden)]
-  // 最小二乗法
+  // 繰り返し二乗法
   // n^m % md
   // 計算量: O(logN)
-  fn least_squares(n: usize, m: usize, md: usize) -> usize {
+  fn pow_mod(n: usize, m: usize, md: usize) -> usize {
     let mut m = m;
     let mut n = n;
 
@@ -58,7 +58,7 @@ mod interger {
 
     while m > 0 {
       if m & 1 == 1 {
-        ret = ret * n % md;
+        ret = (ret * n) % md;
       }
 
       n = n * n % md;
@@ -145,13 +145,13 @@ mod interger {
     }
 
     #[test]
-    fn test_least_squares() {
-      assert_eq!(least_squares(0, 0, 100), 1);
-      assert_eq!(least_squares(0, 1, 100), 0);
-      assert_eq!(least_squares(1, 0, 100), 1);
-      assert_eq!(least_squares(5, 4, 2000), 625);
-      assert_eq!(least_squares(4, 5, 2000), 1024);
-      assert_eq!(least_squares(4, 5, 1000), 24);
+    fn test_pow_mod() {
+      assert_eq!(pow_mod(0, 0, 100), 1);
+      assert_eq!(pow_mod(0, 1, 100), 0);
+      assert_eq!(pow_mod(1, 0, 100), 1);
+      assert_eq!(pow_mod(5, 4, 2000), 625);
+      assert_eq!(pow_mod(4, 5, 2000), 1024);
+      assert_eq!(pow_mod(4, 5, 1000), 24);
     }
 
     #[test]
