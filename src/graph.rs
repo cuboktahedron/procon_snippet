@@ -6,7 +6,7 @@ mod graph {
   // 全頂点間の最短経路を求める。
   // 経路がない箇所には[INF]を設定しておくこと。
   // 計算量: O(n^3)
-  fn warshall_floyd(mut g: Vec<Vec<usize>>, n: usize) {
+  fn warshall_floyd(g: &mut Vec<Vec<usize>>, n: usize) {
     for k in 0..n {
       for i in 0..n {
         for j in 0..n {
