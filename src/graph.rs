@@ -6,7 +6,7 @@ mod graph {
   #[snippet(doc_hidden)]
   // 始点から最短経路を求める。
   // 辺の重みが非負数の場合に使用できる。
-  // 計算量: O(n^2)
+  // 計算量: O(N^2) N: 頂点数
   fn dijkstra(g: &Vec<Vec<(usize, usize)>>, st: usize) -> Vec<usize> {
     const INF: usize = 100_0000_0000_0000_0000;
 
@@ -44,8 +44,8 @@ mod graph {
 
   #[snippet(doc_hidden)]
   // 始点から最短経路を求める。
-  // 計算量: 疎グラフの場合：O(|n|log|n|)
-  //         密グラフの場合：Θ(|n^2|log|n|)
+  // 計算量: 疎グラフの場合：O(|N|log|N|)
+  //         密グラフの場合：Θ(|N^2|log|N|) N: 頂点数
   fn dijkstra2(g: &Vec<Vec<(usize, isize)>>, st: usize) -> Vec<isize> {
     const INF: isize = 100_0000_0000_0000_0000;
 
@@ -82,7 +82,7 @@ mod graph {
   #[snippet(doc_hidden)]
   // 全頂点間の最短経路を求める。
   // 経路がない箇所には[INF]を設定しておくこと。
-  // 計算量: O(n^3)
+  // 計算量: O(N^3) N: 頂点数
   fn warshall_floyd(g: &mut Vec<Vec<usize>>) {
     let v_num = g.len();
 
@@ -93,5 +93,62 @@ mod graph {
         }
       }
     }
+  }
+
+  #[snippet(doc_hidden)]
+  // 鏡連結成分分解(SCC: Storongly Connected Component)
+  // 計算量: O(|N + E|) : N: 頂点数、E: 辺の数
+  fn scc(n: usize, g: &Vec<Vec<usize>>) -> Vec<usize> {
+    // DFSで末端の頂点から順に通し番号を振る
+    fn dfs(v: usize, g: &Vec<Vec<usize>>, used: &mut Vec<bool>, vs: &mut Vec<usize>) {
+      used[v] = true;
+      for &i in &g[v] {
+        if !used[i] {
+          dfs(i, g, used, vs);
+        }
+      }
+      vs.push(v);
+    }
+
+    let mut used = vec![false; n];
+    let mut vs = vec![];
+    for i in 0..n {
+      if !used[i] {
+        dfs(i, g, &mut used, &mut vs);
+      }
+    }
+
+    // グラフの向きを反転したうえで
+    // 上で振った通し番号の大きい方の頂点から再度DFSして到達できる頂点を
+    // 同じグループとしてマークする
+
+    fn rdfs(v: usize, rg: &Vec<Vec<usize>>, used: &mut Vec<bool>, cmp: &mut Vec<usize>, k: usize) {
+      used[v] = true;
+      cmp[v] = k;
+      for &i in &rg[v] {
+        if !used[i] {
+          rdfs(i, rg, used, cmp, k);
+        }
+      }
+    }
+
+    let mut rg = vec![vec![]; n];
+    for i in 0..n {
+      for &j in &g[i] {
+        rg[j].push(i)
+      }
+    }
+
+    let mut used = vec![false; n];
+    let mut k = 0;
+    let mut cmp = vec![0usize; n];
+    for i in (0..vs.len()).rev() {
+      if !used[vs[i]] {
+        rdfs(vs[i], &rg, &mut used, &mut cmp, k);
+        k += 1;
+      }
+    }
+
+    cmp
   }
 }
