@@ -1,5 +1,5 @@
 #[allow(dead_code)]
-mod interger {
+pub mod interger {
   use cargo_snippet::snippet;
   use std::collections::HashMap;
 
@@ -50,7 +50,7 @@ mod interger {
   // 繰り返し二乗法
   // n^m % md
   // 計算量: O(logN)
-  fn pow_mod(n: usize, m: usize, md: usize) -> usize {
+  pub fn pow_mod(n: usize, m: usize, md: usize) -> usize {
     let mut m = m;
     let mut n = n;
 
