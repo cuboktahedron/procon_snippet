@@ -7,5 +7,6 @@ pub mod integer;
 pub mod matrix;
 pub mod prime;
 pub mod probability;
+pub mod seg_tree;
 pub mod sum;
 pub mod trigonometric;
