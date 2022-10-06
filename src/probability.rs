@@ -31,6 +31,11 @@ mod probability {
     (((fact_n * fact_r1) % md) * fact_nr1) % md
   }
 
+  #[snippet(include = "combination_mod")]
+  fn combination_dup_mod(n: usize, k: usize, md: usize) -> usize {
+    combination_mod(n + k - 1, k, md)
+  }
+
   #[cfg(test)]
   mod tests {
     use super::*;
@@ -47,6 +52,13 @@ mod probability {
     fn test_combination_mod() {
       assert_eq!(combination_mod(1, 1, 31), 1);
       assert_eq!(combination_mod(8, 3, 31), 25);
+    }
+
+
+    #[test]
+    fn test_combination_dup_mod() {
+      assert_eq!(combination_dup_mod(1, 1, 31), 1);
+      assert_eq!(combination_dup_mod(6, 4, 31), 2);
     }
   }
 }
